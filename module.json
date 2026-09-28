@@ -1,0 +1,26 @@
+{
+  "id": "foundryvtt-todos",
+  "title": "Todos",
+  "description": "Per-player todo lists with colored tags. The GM can share todos with one or more players and track who has finished them.",
+  "version": "0.2.0",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "14"
+  },
+  "authors": [
+    {
+      "name": "Vaibhav Somani"
+    }
+  ],
+  "url": "https://github.com/vabs/foundryvtt-todos",
+  "license": "LICENSE",
+  "esmodules": ["index.js"],
+  "styles": ["styles.css"],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ]
+}
