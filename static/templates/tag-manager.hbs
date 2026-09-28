@@ -1,0 +1,39 @@
+<div class="tag-manager">
+  <p class="hint">{{localize "TODOS.Tags.Hint"}}</p>
+  <ul class="tag-list">
+    {{#each tags}}
+      <li class="tag-row" data-tag-id="{{id}}">
+        <span
+          class="todo-tag"
+          style="--tag-color: {{color}}; --tag-text: {{textColor}}"
+        >{{name}}</span>
+        <input
+          type="text"
+          name="{{id}}.name"
+          value="{{name}}"
+          aria-label="{{localize 'TODOS.Tags.Name'}}"
+        />
+        <color-picker name="{{id}}.color" value="{{color}}"></color-picker>
+        {{#if deletable}}
+          <button
+            type="button"
+            class="icon"
+            data-action="deleteTag"
+            data-tooltip="TODOS.Tags.Delete"
+            aria-label="{{localize 'TODOS.Tags.Delete'}}"
+          >
+            <i class="fa-solid fa-trash" inert></i>
+          </button>
+        {{else}}
+          <span class="icon" data-tooltip="TODOS.Tags.DefaultLocked">
+            <i class="fa-solid fa-lock" inert></i>
+          </span>
+        {{/if}}
+      </li>
+    {{/each}}
+  </ul>
+  <button type="button" data-action="addTag">
+    <i class="fa-solid fa-plus" inert></i>
+    {{localize "TODOS.Tags.Add"}}
+  </button>
+</div>

@@ -1,0 +1,53 @@
+<fieldset class="share-form">
+  <legend>
+    {{localize
+      (ifThen editing "TODOS.Shared.EditLegend" "TODOS.Shared.NewLegend")
+    }}
+  </legend>
+
+  <div class="share-fields">
+    <input
+      type="text"
+      name="text"
+      value="{{draft.text}}"
+      placeholder="{{localize 'TODOS.Placeholder'}}"
+      autocomplete="off"
+    />
+    <select name="tagId" aria-label="{{localize 'TODOS.Tags.Label'}}">
+      {{selectOptions
+        tagChoices
+        selected=draft.tagId
+        blank=(localize "TODOS.Tags.None")
+      }}
+    </select>
+  </div>
+
+  {{#if players.length}}
+    <div class="share-recipients">
+      {{#each players}}
+        <label class="share-recipient" style="--user-color: {{color}}">
+          <input
+            type="checkbox"
+            name="recipients.{{id}}"
+            {{checked selected}}
+          />
+          {{name}}
+        </label>
+      {{/each}}
+    </div>
+  {{else}}
+    <p class="hint">{{localize "TODOS.Shared.NoPlayers"}}</p>
+  {{/if}}
+
+  <div class="share-buttons">
+    {{#if editing}}
+      <button type="button" data-action="cancelEdit">
+        {{localize "Cancel"}}
+      </button>
+    {{/if}}
+    <button type="submit">
+      <i class="fa-solid fa-share-nodes" inert></i>
+      {{localize (ifThen editing "TODOS.Shared.Save" "TODOS.Shared.Share")}}
+    </button>
+  </div>
+</fieldset>

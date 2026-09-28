@@ -1,0 +1,45 @@
+{
+  "TODOS": {
+    "Title": "Todos",
+    "Open": "Open Todos",
+    "Placeholder": "What needs doing?",
+    "Add": "Add todo",
+    "Toggle": "Mark done",
+    "Delete": "Delete todo",
+    "Empty": "Nothing to do. Enjoy the adventure!",
+    "Remaining": "{count} remaining",
+    "ClearCompleted": "Clear completed",
+    "SharedBy": "Shared by {name}",
+    "Tags": {
+      "Title": "Manage Tags",
+      "Open": "Tags",
+      "Hint": "Tags are shared by everyone in this world. Each tag needs its own color.",
+      "Label": "Tag",
+      "None": "No tag",
+      "Name": "Tag name",
+      "NewTag": "New Tag",
+      "Add": "Add tag",
+      "Delete": "Delete tag",
+      "DefaultLocked": "The default tag can be renamed and recolored but not deleted.",
+      "ColorTaken": "Another tag already uses that color. Pick a different one.",
+      "DeleteTitle": "Delete Tag",
+      "DeleteConfirm": "Delete the <strong>{name}</strong> tag? Todos using it will show no tag."
+    },
+    "Shared": {
+      "Title": "Shared Todos",
+      "Open": "Shared",
+      "NewLegend": "Share a todo",
+      "EditLegend": "Edit shared todo",
+      "Share": "Share",
+      "Save": "Save changes",
+      "Edit": "Edit",
+      "Delete": "Remove from all players",
+      "Empty": "You haven't shared any todos yet.",
+      "NoPlayers": "There are no players in this world yet.",
+      "TextRequired": "Write the todo before sharing it.",
+      "RecipientsRequired": "Pick at least one player to share with.",
+      "DeleteTitle": "Remove Shared Todo",
+      "DeleteConfirm": "Remove <strong>{text}</strong> from every player's list?"
+    }
+  }
+}

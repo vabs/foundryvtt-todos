@@ -1,0 +1,46 @@
+<div class="todos-form">
+  {{#if canShare}}
+    <nav class="todos-toolbar">
+      <button type="button" data-action="openShared">
+        <i class="fa-solid fa-share-nodes" inert></i>
+        {{localize "TODOS.Shared.Open"}}
+      </button>
+      {{#if canManageTags}}
+        <button type="button" data-action="openTags">
+          <i class="fa-solid fa-tags" inert></i>
+          {{localize "TODOS.Tags.Open"}}
+        </button>
+      {{/if}}
+    </nav>
+  {{else if canManageTags}}
+    <nav class="todos-toolbar">
+      <button type="button" data-action="openTags">
+        <i class="fa-solid fa-tags" inert></i>
+        {{localize "TODOS.Tags.Open"}}
+      </button>
+    </nav>
+  {{/if}}
+
+  <div class="todos-add">
+    <input
+      type="text"
+      name="text"
+      placeholder="{{localize 'TODOS.Placeholder'}}"
+      autocomplete="off"
+    />
+    <select name="tagId" aria-label="{{localize 'TODOS.Tags.Label'}}">
+      {{selectOptions
+        tagChoices
+        selected=defaultTagId
+        blank=(localize "TODOS.Tags.None")
+      }}
+    </select>
+    <button
+      type="submit"
+      data-tooltip="TODOS.Add"
+      aria-label="{{localize 'TODOS.Add'}}"
+    >
+      <i class="fa-solid fa-plus" inert></i>
+    </button>
+  </div>
+</div>

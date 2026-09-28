@@ -1,0 +1,54 @@
+<div class="todos-body">
+  {{#if todos.length}}
+    <ul class="todos-list">
+      {{#each todos}}
+        <li class="todo" data-todo-id="{{id}}">
+          <input
+            type="checkbox"
+            data-action="toggle"
+            {{checked done}}
+            aria-label="{{localize 'TODOS.Toggle'}}"
+          />
+          <span class="todo-text">{{text}}</span>
+          {{#if tag}}
+            <span
+              class="todo-tag"
+              style="--tag-color: {{tag.color}}; --tag-text: {{tag.textColor}}"
+            >{{tag.name}}</span>
+          {{/if}}
+          {{#if sharedBy}}
+            <span
+              class="todo-shared"
+              data-tooltip="{{localize 'TODOS.SharedBy' name=sharedByName}}"
+            >
+              <i class="fa-solid fa-share-nodes" inert></i>
+            </span>
+          {{else}}
+            <button
+              type="button"
+              class="icon"
+              data-action="delete"
+              data-tooltip="TODOS.Delete"
+              aria-label="{{localize 'TODOS.Delete'}}"
+            >
+              <i class="fa-solid fa-trash" inert></i>
+            </button>
+          {{/if}}
+        </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <p class="todos-empty">{{localize "TODOS.Empty"}}</p>
+  {{/if}}
+
+  <footer class="todos-footer">
+    <span>{{localize "TODOS.Remaining" count=remaining}}</span>
+    <button
+      type="button"
+      data-action="clearCompleted"
+      {{disabled (not hasCompleted)}}
+    >
+      {{localize "TODOS.ClearCompleted"}}
+    </button>
+  </footer>
+</div>

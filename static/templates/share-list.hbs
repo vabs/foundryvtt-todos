@@ -1,0 +1,54 @@
+<div class="share-body">
+  {{#if shares.length}}
+    <ul class="share-list">
+      {{#each shares}}
+        <li class="share" data-share-id="{{id}}">
+          <div class="share-header">
+            <span class="todo-text">{{text}}</span>
+            {{#if tag}}
+              <span
+                class="todo-tag"
+                style="--tag-color: {{tag.color}}; --tag-text: {{tag.textColor}}"
+              >{{tag.name}}</span>
+            {{/if}}
+            <span
+              class="share-progress"
+            >{{doneCount}}/{{recipients.length}}</span>
+            <button
+              type="button"
+              class="icon"
+              data-action="editShare"
+              data-tooltip="TODOS.Shared.Edit"
+              aria-label="{{localize 'TODOS.Shared.Edit'}}"
+            >
+              <i class="fa-solid fa-pen" inert></i>
+            </button>
+            <button
+              type="button"
+              class="icon"
+              data-action="deleteShare"
+              data-tooltip="TODOS.Shared.Delete"
+              aria-label="{{localize 'TODOS.Shared.Delete'}}"
+            >
+              <i class="fa-solid fa-trash" inert></i>
+            </button>
+          </div>
+          <ul class="share-status">
+            {{#each recipients}}
+              <li class="share-recipient" style="--user-color: {{color}}">
+                {{#if done}}
+                  <i class="fa-solid fa-circle-check" inert></i>
+                {{else}}
+                  <i class="fa-regular fa-circle" inert></i>
+                {{/if}}
+                {{name}}
+              </li>
+            {{/each}}
+          </ul>
+        </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <p class="todos-empty">{{localize "TODOS.Shared.Empty"}}</p>
+  {{/if}}
+</div>
