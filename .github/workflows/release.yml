@@ -1,0 +1,96 @@
+# Builds the module when a GitHub release is published and attaches `module.json` and `module.zip` to it.
+# The release tag must be the manifest version with a `v` prefix, e.g. `v0.2.0` for version `0.2.0`.
+#
+# If the `FOUNDRY_PACKAGE_TOKEN` secret is set, full (non pre-)releases are also published to foundryvtt.com
+# through the Package Release API. The token is on the package's admin page on foundryvtt.com.
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.release.tag_name }}
+      # Stable, so installed copies can always find the newest release.
+      MANIFEST_URL: https://github.com/${{ github.repository }}/releases/latest/download/module.json
+      # This release's own manifest, for the foundryvtt.com version entry.
+      RELEASE_MANIFEST_URL: https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/module.json
+      DOWNLOAD_URL: https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/module.zip
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Check the tag matches the manifest version
+        run: |
+          version=$(jq -r .version module.json)
+          if [ "$TAG" != "v$version" ]; then
+            echo "::error::Tag $TAG doesn't match module.json version $version. Tag the release v$version."
+            exit 1
+          fi
+
+      - name: Install dependencies
+        env:
+          COREPACK_ENABLE_DOWNLOAD_PROMPT: 0
+        run: |
+          corepack enable
+          yarn install --immutable
+
+      - name: Build
+        run: yarn build
+
+      - name: Add release URLs to the manifest
+        run: |
+          jq --arg manifest "$MANIFEST_URL" --arg download "$DOWNLOAD_URL" \
+            '.manifest = $manifest | .download = $download' \
+            dist/module.json > module.json.tmp
+          mv module.json.tmp dist/module.json
+
+      - name: Zip the module
+        working-directory: dist
+        run: zip --recurse-paths ../module.zip .
+
+      - name: Attach files to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$TAG" dist/module.json module.zip --clobber
+
+      - name: Publish to foundryvtt.com
+        if: ${{ !github.event.release.prerelease }}
+        env:
+          FOUNDRY_PACKAGE_TOKEN: ${{ secrets.FOUNDRY_PACKAGE_TOKEN }}
+          NOTES_URL: ${{ github.event.release.html_url }}
+        run: |
+          if [ -z "$FOUNDRY_PACKAGE_TOKEN" ]; then
+            echo "FOUNDRY_PACKAGE_TOKEN isn't set, skipping."
+            exit 0
+          fi
+
+          jq --arg manifest "$RELEASE_MANIFEST_URL" --arg notes "$NOTES_URL" '{
+            id,
+            release: {
+              version,
+              manifest: $manifest,
+              notes: $notes,
+              compatibility: {
+                minimum: .compatibility.minimum,
+                verified: .compatibility.verified,
+                maximum: (.compatibility.maximum // "")
+              }
+            }
+          }' dist/module.json > release.json
+
+          curl --fail-with-body --silent --show-error \
+            --request POST https://foundryvtt.com/_api/packages/release_version/ \
+            --header "Content-Type: application/json" \
+            --header "Authorization: $FOUNDRY_PACKAGE_TOKEN" \
+            --data @release.json
