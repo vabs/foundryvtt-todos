@@ -13,6 +13,15 @@ Todos are stored in each user's `User` flags, so they sync across that user's de
 
 Requires Foundry VTT v13 or newer (verified on v14).
 
+## Screenshots
+
+### Todos Manager
+<img width="713" height="584" alt="Todos" src="https://github.com/user-attachments/assets/c0c6a1f1-7ea1-4cce-be27-bae11923931d" />
+
+### Tag Manager
+<img width="421" height="385" alt="Todos-Tags" src="https://github.com/user-attachments/assets/badc4c1b-3b36-48b7-9df6-786992faab8f" />
+
+
 ## Installation
 
 In Foundry's setup screen, go to **Add-on Modules → Install Module** and paste this manifest URL:
