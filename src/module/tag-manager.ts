@@ -35,7 +35,7 @@ export class TagManager extends HandlebarsApplicationMixin(
       icon: "fa-solid fa-tags",
       resizable: true,
     },
-    position: { width: 380, height: 420 },
+    position: { width: 520, height: 460 },
     // Each edit saves as soon as the field changes, so there's no Save button to forget.
     form: {
       handler: TagManager.#onSubmit,
