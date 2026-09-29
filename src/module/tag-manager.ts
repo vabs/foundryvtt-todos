@@ -5,6 +5,7 @@ import HandlebarsApplicationMixin = foundry.applications.api.HandlebarsApplicati
 import { MODULE_ID, TEMPLATES } from "./constants.ts";
 import {
   PERSONAL_TAG_ID,
+  TAG_NAME_MAX_LENGTH,
   canManageTags,
   createTag,
   deleteTag,
@@ -61,6 +62,7 @@ export class TagManager extends HandlebarsApplicationMixin(
 
     return {
       ...context,
+      maxNameLength: TAG_NAME_MAX_LENGTH,
       tags: getTags().map((tag) => ({
         ...tag,
         deletable: tag.id !== PERSONAL_TAG_ID,
@@ -112,6 +114,7 @@ export declare namespace TagManager {
   interface RenderContext
     extends HandlebarsApplicationMixin.RenderContext,
       ApplicationV2.RenderContext {
+    maxNameLength: number;
     tags: (TagView & { deletable: boolean })[];
   }
 }

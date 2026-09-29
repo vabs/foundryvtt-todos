@@ -22,6 +22,7 @@
       "Delete": "Delete tag",
       "DefaultLocked": "The default tag can be renamed and recolored but not deleted.",
       "ColorTaken": "Another tag already uses that color. Pick a different one.",
+      "NameTooLong": "Tag names can be at most {max} characters.",
       "DeleteTitle": "Delete Tag",
       "DeleteConfirm": "Delete the <strong>{name}</strong> tag? Todos using it will show no tag."
     },

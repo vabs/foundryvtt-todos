@@ -18,6 +18,9 @@
   // A colored chip, used for tags everywhere.
   .todo-tag {
     flex: 0 0 auto;
+    max-width: 10rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
     padding: 0.05rem 0.5rem;
     border-radius: 1rem;
     background: var(--tag-color);
@@ -152,8 +155,6 @@
     }
 
     .todo-tag {
-      overflow: hidden;
-      text-overflow: ellipsis;
       text-align: center;
     }
 

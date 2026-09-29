@@ -14,6 +14,8 @@ export interface TagView extends Tag {
 
 export const PERSONAL_TAG_ID = "personal";
 
+export const TAG_NAME_MAX_LENGTH = 20;
+
 // Handed out in order to new tags, then random colors once these are taken.
 const PALETTE = [
   "#4a90d9",
@@ -88,7 +90,10 @@ export async function createTag(): Promise<void> {
 
   tags[id] = {
     id,
-    name: game.i18n?.localize("TODOS.Tags.NewTag") ?? "New Tag",
+    name: (game.i18n?.localize("TODOS.Tags.NewTag") ?? "New Tag").slice(
+      0,
+      TAG_NAME_MAX_LENGTH,
+    ),
     color: PALETTE.find((color) => !used.has(color)) ?? randomColor(used),
   };
 
@@ -100,20 +105,23 @@ export interface TagChanges {
   color?: string;
 }
 
-// Applies edits from the tag manager, rejecting blank names and colors already used by another tag.
+// Applies edits from the tag manager, rejecting blank or overlong names and colors already used by another tag.
 export async function updateTags(
   changes: Record<string, TagChanges>,
 ): Promise<void> {
   const tags = foundry.utils.deepClone(getTagMap());
   let changed = false;
   let colorTaken = false;
+  let nameTooLong = false;
 
   for (const [id, change] of Object.entries(changes)) {
     const tag = tags[id];
     if (!tag) continue;
 
     const name = change.name?.trim();
-    if (name && name !== tag.name) {
+    if (name && name.length > TAG_NAME_MAX_LENGTH) {
+      nameTooLong = true;
+    } else if (name && name !== tag.name) {
       tag.name = name;
       changed = true;
     }
@@ -128,6 +136,14 @@ export async function updateTags(
 
     tag.color = color;
     changed = true;
+  }
+
+  if (nameTooLong) {
+    ui.notifications?.warn(
+      game.i18n?.format("TODOS.Tags.NameTooLong", {
+        max: TAG_NAME_MAX_LENGTH,
+      }) ?? "",
+    );
   }
 
   if (colorTaken) {

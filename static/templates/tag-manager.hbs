@@ -11,6 +11,7 @@
           type="text"
           name="{{id}}.name"
           value="{{name}}"
+          maxlength="{{@root.maxNameLength}}"
           aria-label="{{localize 'TODOS.Tags.Name'}}"
         />
         <color-picker name="{{id}}.color" value="{{color}}"></color-picker>
