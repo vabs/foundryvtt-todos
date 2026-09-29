@@ -13,6 +13,14 @@ Todos are stored in each user's `User` flags, so they sync across that user's de
 
 Requires Foundry VTT v13 or newer (verified on v14).
 
+## Installation
+
+In Foundry's setup screen, go to **Add-on Modules → Install Module** and paste this manifest URL:
+
+```
+https://github.com/vabs/foundryvtt-todos/releases/latest/download/module.json
+```
+
 ## API
 
 Macros and other modules can open the window:
@@ -64,6 +72,13 @@ Built on LukeAbby's Foundry VTT starter project (MIT-0): Vite, TypeScript, [fvtt
 | `static/`                        | Served as-is: templates and language files.                        |
 
 If you change the module id, update it in `module.json`, `vite.config.ts`, `src/module/constants.ts` and `src/module/configuration.ts`.
+
+### Releasing
+
+1. Bump `version` in `module.json` and commit.
+2. Publish a GitHub release tagged with that version and a `v` prefix, e.g. `v0.2.0`.
+3. The release workflow builds the module, adds the `manifest` and `download` URLs to `module.json`, and attaches `module.json` and `module.zip` to the release.
+4. If the `FOUNDRY_PACKAGE_TOKEN` repository secret is set, it also publishes the version to foundryvtt.com. Pre-releases are never published there.
 
 ## License
 
